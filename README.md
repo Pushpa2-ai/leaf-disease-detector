@@ -151,32 +151,24 @@ Frontend will run on:
 
 👉 http://localhost:5173
 
+
 🧠 ML Logic Inside Plant Leaf Disease Detection
 
 Feature	ML / Logic Used
-
 Image preprocessing	OpenCV (resize, normalization)
-
 Feature extraction	Texture, color, shape features
-
 Classification	Classical ML (Scikit-learn)
-
 Confidence scoring	Probability-based output
-
 Prediction pipeline	REST API integration
+
 
 🚀 Future Enhancements
 
 🌱 Support for more plant species & diseases
-
 🧠 Deep Learning model integration (CNN)
-
 📱 Mobile-responsive UI improvements
-
 ☁️ Cloud deployment (AWS / Render)
-
 📊 Admin analytics dashboard
-
 📸 Camera-based live detection
 
 
