@@ -154,21 +154,33 @@ Frontend will run on:
 
 🧠 ML Logic Inside Plant Leaf Disease Detection
 
+
 Feature	ML / Logic Used
+
 Image preprocessing	OpenCV (resize, normalization)
+
 Feature extraction	Texture, color, shape features
+
 Classification	Classical ML (Scikit-learn)
+
 Confidence scoring	Probability-based output
+
 Prediction pipeline	REST API integration
 
 
 🚀 Future Enhancements
 
+
 🌱 Support for more plant species & diseases
+
 🧠 Deep Learning model integration (CNN)
+
 📱 Mobile-responsive UI improvements
+
 ☁️ Cloud deployment (AWS / Render)
+
 📊 Admin analytics dashboard
+
 📸 Camera-based live detection
 
 
@@ -186,4 +198,5 @@ Feel free to fork this repository, submit pull requests, or open issues for impr
 Pushpa Kumari
 
 👩‍💻 B.Tech (CSE-AIDS) | Full-Stack Developer
+
 🔥 Passionate about building intelligent systems with clean UI and scalable backend architectures.
