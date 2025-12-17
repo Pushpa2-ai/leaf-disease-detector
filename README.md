@@ -9,6 +9,7 @@ Plant Leaf Disease Detection is an intelligent image-based disease identificatio
 This project is built using React + Tailwind CSS (Frontend) and Django REST Framework + Machine Learning (Backend), providing real-time disease prediction from uploaded leaf images along with confidence scores and a clean, user-friendly dashboard.
 
 🌟 ✨ Key Features
+
 ✅ 1. Image-Based Leaf Disease Detection
 
 Upload plant leaf images (JPG, JPEG, PNG)
@@ -71,6 +72,7 @@ REST API–based communication
 Scalable architecture for future extensions
 
 🏗️ Tech Stack
+
 🎨 Frontend
 
 React.js (Vite)
@@ -109,50 +111,60 @@ NPM
 
 Python Virtual Environment
 
-📂 Project Structure
-leaf-disease-detector/
-│
-├── frontend/              # React + Vite frontend
-│
-├── backend/               # Django REST API
-│
-├── ml/                    # ML notebooks, dataset & model
-│
-└── README.md
-
 📥 How to Clone & Run the Project
+
 🖥️ 1. Clone the Repository
+
 git clone https://github.com/Pushpa2-ai/leaf-disease-detector.git
+
 cd leaf-disease-detector
 
 🛠️ Backend Setup
+
 cd backend
+
 python -m venv venv
+
 venv\Scripts\activate   # Windows
+
 pip install -r requirements.txt
+
 python manage.py migrate
+
 python manage.py runserver
 
 
 Backend will run on:
+
 👉 http://127.0.0.1:8000
 
 🎨 Frontend Setup
+
 cd frontend
+
 npm install
+
 npm run dev
 
 
 Frontend will run on:
+
 👉 http://localhost:5173
 
 🧠 ML Logic Inside Plant Leaf Disease Detection
+
 Feature	ML / Logic Used
+
 Image preprocessing	OpenCV (resize, normalization)
+
 Feature extraction	Texture, color, shape features
+
 Classification	Classical ML (Scikit-learn)
+
 Confidence scoring	Probability-based output
+
 Prediction pipeline	REST API integration
+
 🚀 Future Enhancements
 
 🌱 Support for more plant species & diseases
@@ -167,9 +179,11 @@ Prediction pipeline	REST API integration
 
 📸 Camera-based live detection
 
+
 📄 License
 
 MIT License — Free to use and improve.
+
 
 🤝 Contributing
 
