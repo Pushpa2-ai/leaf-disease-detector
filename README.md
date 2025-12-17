@@ -167,6 +167,10 @@ Confidence scoring	Probability-based output
 
 Prediction pipeline	REST API integration
 
+Dataset: PlantVillage (processed & filtered)
+
+Model: Classical ML classifier using extracted image features
+
 
 🚀 Future Enhancements
 
