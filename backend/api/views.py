@@ -4,6 +4,8 @@ import numpy as np
 import joblib
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from .knowledge_base import DISEASE_KNOWLEDGE
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 MODEL_PATH = os.path.join(BASE_DIR, "ml", "models", "leaf_disease_svm.pkl")
@@ -26,6 +28,25 @@ def extract_features(image):
 
     return np.concatenate([hist_h, hist_s, hist_v])
 
+def get_severity(disease, confidence):
+    if disease == "Healthy":
+        return "Low"
+
+    if confidence > 0.85:
+        return "High"
+    elif confidence > 0.7:
+        return "Medium"
+    else:
+        return "Low"
+
+def get_recommendation(severity):
+    if severity == "High":
+        return "Immediate action recommended"
+    elif severity == "Medium":
+        return "Monitor for 48 hours"
+    else:
+        return "No action needed"
+
 
 @api_view(['POST'])
 def predict(request):
@@ -41,9 +62,34 @@ def predict(request):
 
     features = extract_features(image).reshape(1, -1)
     prediction = model.predict(features)[0]
-    confidence = float(np.max(model.predict_proba(features)))
+    probs = model.predict_proba(features)
+    confidence = float(np.max(probs))
+
+
+    # Split label
+    parts = prediction.split("___")
+    disease = parts[1].replace("_", " ").title() if len(parts) > 1 else prediction
+
+    # Get knowledge
+    info = DISEASE_KNOWLEDGE.get(disease, {})
+
+    THRESHOLD = 0.6
+
+    if confidence < THRESHOLD:
+        return Response({
+            "disease": "Unknown",
+            "confidence": round(confidence, 2),
+            "message": "This image does not match known disease classes"
+        })
+
+    severity = get_severity(disease, confidence)
+    recommendation = get_recommendation(severity)
 
     return Response({
-        "disease": prediction,
-        "confidence": round(confidence, 2)
+        "disease": disease,
+        "confidence": round(confidence, 2),
+        "severity": severity,
+        "recommendation": recommendation,
+        "symptoms": info.get("symptoms", []),
+        "prevention": info.get("prevention", [])
     })
