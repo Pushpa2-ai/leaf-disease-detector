@@ -5,12 +5,21 @@ import joblib
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .knowledge_base import DISEASE_KNOWLEDGE
+from pathlib import Path
 
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+MODEL_PATH = BASE_DIR / "ml" / "models" / "leaf_disease_svm.pkl"
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-MODEL_PATH = os.path.join(BASE_DIR, "ml", "models", "leaf_disease_svm.pkl")
+_model = None
 
-model = joblib.load(MODEL_PATH)
+def get_model():
+    global _model
+    if _model is None:
+        if not MODEL_PATH.exists():
+            raise FileNotFoundError(f"Model not found at {MODEL_PATH}")
+        _model = joblib.load(MODEL_PATH)
+    return _model
+
 
 IMG_SIZE = 128
 
@@ -61,6 +70,7 @@ def predict(request):
         return Response({"error": "Invalid image"}, status=400)
 
     features = extract_features(image).reshape(1, -1)
+    model = get_model()
     prediction = model.predict(features)[0]
     probs = model.predict_proba(features)
     confidence = float(np.max(probs))
