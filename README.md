@@ -4,29 +4,26 @@
 ![Plant Leaf Disease Detection Demo](frontend/src/assets/detection-demo.gif)
 
 
-Plant Leaf Disease Detection is an intelligent image-based disease identification platform designed to help farmers, gardeners, and agricultural researchers quickly identify plant leaf diseases and take preventive action.
+Plant Leaf Disease Detection is a cloud-deployed, ML-powered decision-support system designed to perform real-time plant disease inference with confidence-based risk assessment, severity classification, and automated action recommendations. The platform is built with a production-grade full-stack architecture featuring a decoupled frontend, REST-based inference workflow, and scalable backend deployment.
 
-This project is built using React + Tailwind CSS (Frontend) and Django REST Framework + Machine Learning (Backend), providing real-time disease prediction from uploaded leaf images along with confidence scores and a clean, user-friendly dashboard.
 
-🌟 ✨ Key Features
+🌟 Key Features
 
 ✅ 1. Image-Based Leaf Disease Detection
 
 Upload plant leaf images (JPG, JPEG, PNG)
 
-Real-time disease prediction using ML model
+Real-time disease prediction using a classical ML model
 
 Automatic image preprocessing before inference
 
-Supports multiple plant disease classes
+Supports known disease classes with out-of-scope detection
 
-✅ 2. Machine Learning–Powered Prediction Engine
+✅ 2. ML-Powered Prediction & Safety Engine
 
-Classical Machine Learning–based image classification
+Classical Machine Learning–based image classification (HSV feature extraction + SVM)
 
-Feature extraction using image processing techniques
-
-Trained on PlantVillage dataset
+Trained on a curated subset of the PlantVillage dataset
 
 Returns:
 
@@ -34,44 +31,79 @@ Predicted disease name
 
 Confidence score
 
-Example:
+Unknown detection for low-confidence or unsupported inputs
 
-Disease: Tomato – Early Blight
+Example Output:
+
+Disease: Early Blight
+
 Confidence: 0.84
 
-✅ 3. Clean & User-Friendly Dashboard
+Severity: Medium
 
-Minimal, green-themed UI
+Recommendation: Monitor for 48 hours
+
+✅ 3. Modern, Interactive Dashboard
+
+Clean, green-themed UI
 
 Drag-and-drop image upload
 
-Controlled image preview (no layout break)
+Controlled image preview (no layout shift)
 
-Clean disease name formatting
+Dynamic layout (centered upload → two-column view after result)
 
-Real-time result display
+Smooth slide-in information panel
 
-✅ 4. Disease Information & Prevention Guidance
+✅ 4. Disease Knowledge Base & Decision Support
 
-Displays symptoms and prevention tips for detected diseases
+Backend-driven knowledge base for:
 
-Helps users understand:
+Symptoms
 
-Causes of disease
+Prevention and treatment guidance
 
-Preventive agricultural practices
+Severity engine (Low / Medium / High risk)
 
-Improves usability beyond just prediction
+Rule-based action recommendations:
+
+Immediate action recommended
+
+Monitor for 48 hours
+
+No action needed
 
 ✅ 5. Full-Stack ML Integration
 
-Frontend → Backend → ML Model → Frontend flow
+End-to-end flow:
 
-REST API–based communication
+Frontend → REST API → ML Inference → Knowledge Base → Decision Engine → Frontend
 
-Scalable architecture for future extensions
+Modular backend design for easy extension to new crops and diseases
+
+Deployment-ready architecture
+
+
+🏗️ System Architecture
+
+Deployed on cloud infrastructure with environment-based configuration and CORS-secured API access
+```text
+
+Frontend (React + Vite + Tailwind CSS) — Vercel
+        |
+        |  HTTPS REST API (Image Upload + JSON Response)
+        |
+Backend (Django + Django REST Framework) — Render
+        |
+ML Inference (HSV Feature Extraction + SVM)
+        |
+Knowledge Base + Severity & Recommendation Engine
+
+```
+
 
 🏗️ Tech Stack
+
 
 🎨 Frontend
 
@@ -81,15 +113,15 @@ Tailwind CSS
 
 JavaScript (ES6+)
 
+
 🧠 Backend
 
 Django
 
 Django REST Framework
 
-SQLite3 (development)
-
 Python
+
 
 🤖 Machine Learning
 
@@ -101,6 +133,134 @@ NumPy
 
 Classical ML algorithms (no deep learning)
 
+
+⚙️ DevOps & Deployment
+
+GitHub (Version Control)
+
+Render (Backend Hosting)
+
+Vercel (Frontend Hosting)
+
+Environment-Based API Routing
+
+
+📂 Project Structure
+```text
+leaf-disease-detector/
+│
+├── README.md
+├── .gitignore
+├── requirements.txt              
+│
+├── ml/                           
+│   ├── dataset/
+│   │   ├── Corn___Common_Rust/
+│   │   ├── Potato___Early_blight/
+│   │   ├── Potato___Healthy/
+│   │   ├── Tomato___Early_blight/
+│   │   └── Tomato___Healthy/
+│   │
+│   ├── models/
+│   │   └── leaf_disease_svm.pkl
+│   │
+│   └── scripts/                  
+│       └── train_model.py     
+│
+├── backend/
+│   ├── manage.py
+│   │
+│   ├── backend/                  
+│   │   ├── __init__.py
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   ├── asgi.py
+│   │   └── wsgi.py
+│   │
+│   ├── api/                      
+│   │   ├── __init__.py
+│   │   ├── admin.py
+│   │   ├── apps.py
+│   │   ├── urls.py
+│   │   ├── views.py              
+│   │   ├── knowledge_base.py
+│   │   └── migrations/
+│   │       └── __init__.py
+│   │
+│   └── .env.example
+│
+├── frontend/
+│   ├── index.html
+│   ├── package.json
+│   ├── vite.config.js
+│   ├── postcss.config.js
+│   ├── tailwind.config.js
+│   │
+│   ├── src/
+│   │   ├── main.jsx
+│   │   ├── App.jsx
+│   │   ├── index.css
+│   │   │
+│   │   ├── components/
+│   │   │   └── Dashboard.jsx
+│   │   │
+│   │   └── assets/
+│   │       ├── bg.png
+│   │       └── demo.gif
+│   │
+│   └── .env.example
+│
+```
+
+
+⚙️ Environment Setup
+
+.env
+
+Create a .env file in backend:
+
+SECRET_KEY=your_secret
+
+DEBUG=False
+
+
+🛠 Backend
+
+cd backend
+
+pip install -r requirements.txt
+
+python manage.py migrate
+
+python manage.py runserver
+
+
+🎨 Frontend
+
+cd frontend
+
+npm install
+
+npm run dev
+
+
+🌐 Deployment (Production Ready)
+
+Backend
+
+Hosted on Render: https://leaf-disease-detector-6p6p.onrender.com
+
+Gunicorn + Whitenoise
+
+Frontend
+
+Hosted on Vercel: https://leaf-disease-detector-three.vercel.app/
+
+Environment-based API routing:
+
+VITE_API_BASE=https://leaf-disease-detector-6p6p.onrender.com
+
+
 ⚙️ Other Tools
 
 Postman (API testing)
@@ -111,7 +271,9 @@ NPM
 
 Python Virtual Environment
 
+
 📥 How to Clone & Run the Project
+
 
 🖥️ 1. Clone the Repository
 
@@ -133,10 +295,10 @@ python manage.py migrate
 
 python manage.py runserver
 
-
 Backend will run on:
 
 👉 http://127.0.0.1:8000
+
 
 🎨 Frontend Setup
 
@@ -146,14 +308,12 @@ npm install
 
 npm run dev
 
-
 Frontend will run on:
 
 👉 http://localhost:5173
 
 
 🧠 ML Logic Inside Plant Leaf Disease Detection
-
 
 Feature	ML / Logic Used
 
@@ -181,8 +341,6 @@ Model: Classical ML classifier using extracted image features
 
 📱 Mobile-responsive UI improvements
 
-☁️ Cloud deployment (AWS / Render)
-
 📊 Admin analytics dashboard
 
 📸 Camera-based live detection
@@ -201,6 +359,6 @@ Feel free to fork this repository, submit pull requests, or open issues for impr
 
 Pushpa Kumari
 
-👩‍💻 B.Tech (CSE-AIDS) | Full-Stack Developer
+👩‍💻 B.Tech (CSE-AIDS) | Full-Stack Developer (React & Django)
 
-🔥 Passionate about building intelligent systems with clean UI and scalable backend architectures.
+🔥 Focused on building cloud-deployed, API-driven applications with real-world simulation and production-style architecture.
