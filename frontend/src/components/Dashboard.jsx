@@ -1,5 +1,8 @@
 import { useState } from "react";
 
+const API_BASE = import.meta.env.VITE_API_BASE;
+
+
 /* ---------- Helper to format disease name ---------- */
 const formatDiseaseName = (name) => {
   if (!name) return "";
@@ -64,7 +67,7 @@ export default function Dashboard() {
     formData.append("image", file);
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/predict/", {
+      const response = await fetch(`${API_BASE}/api/predict/`, {
         method: "POST",
         body: formData,
       });
